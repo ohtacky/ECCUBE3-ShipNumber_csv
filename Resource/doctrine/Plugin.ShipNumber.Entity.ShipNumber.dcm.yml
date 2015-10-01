@@ -1,0 +1,24 @@
+Plugin\ShipNumber\Entity\ShipNumber:
+    type: entity
+    table: plg_ship_number
+    repositoryClass: Plugin\ShipNumber\Repository\ShipNumberRepository
+    id:
+        order_id:
+            type: smallint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: NONE
+    fields:
+        ship_number:
+            type: text
+            nullable: true
+    oneToOne:
+        Order:
+            targetEntity: Eccube\Entity\Order
+            joinColumn:
+                name: order_id
+                referencedColumnName: order_id
+
+    lifecycleCallbacks: {  }

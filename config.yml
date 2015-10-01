@@ -1,0 +1,10 @@
+name: 配送伝票番号プラグイン
+code: ShipNumber
+version: 0.0.1
+service:
+    - ShipNumberServiceProvider
+orm.path:
+    - /Resource/doctrine
+migration.path:
+    - /migration
+event: ShipNumberEvent

@@ -1,0 +1,9 @@
+eccube.event.render.admin_order_edit.before:
+    - [onRenderAdminOrderEditBefore, NORMAL]
+    - [registerShipNumber, NORMAL]
+eccube.event.render.admin_order_mail.before:
+    - [mailShipNumber, NORMAL]
+eccube.event.render.admin_order_mail_all.before:
+    - [mailAllShipNumberComfirm, NORMAL]
+eccube.event.controller.admin_order_mail_all.before:
+    - [mailAllShipNumber, NORMAL]

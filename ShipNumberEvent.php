@@ -9,18 +9,6 @@
 * file that was distributed with this source code.
 */
 
-//========必ずやる========
-
-
-//========プラスアルファ========
-//★★新規登録の際にも配送伝票番号が登録できるように
-
-//========有料プラグイン========
-//csvでの一括インポート
-//★★配送会社の登録
-//★★各配送会社毎の発送メールの文言
-
-
 namespace Plugin\ShipNumber;
 
 use Symfony\Component\DomCrawler\Crawler;

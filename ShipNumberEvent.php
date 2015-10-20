@@ -257,6 +257,12 @@ class ShipNumberEvent
               $html = $crawler->html();
               $html = str_replace($oldHtml, $newHtml, $html);
 
+              $html = html_entity_decode($html, ENT_NOQUOTES, 'UTF-8');
+
+              $first = array("<head>", "</body>");
+              $last = array("<html lang=\"ja\"><head>", "</body></html>");
+              $html = str_replace($first, $last, $html);
+            
               $response->setContent($html);
               $event->setResponse($response);
           }

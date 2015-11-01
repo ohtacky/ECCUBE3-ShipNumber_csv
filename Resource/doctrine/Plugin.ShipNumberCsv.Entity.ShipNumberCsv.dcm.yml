@@ -1,7 +1,7 @@
-Plugin\ShipNumber\Entity\ShipNumber:
+Plugin\ShipNumberCsv\Entity\ShipNumberCsv:
     type: entity
-    table: plg_ship_number
-    repositoryClass: Plugin\ShipNumber\Repository\ShipNumberRepository
+    table: plg_ship_number_csv
+    repositoryClass: Plugin\ShipNumberCsv\Repository\ShipNumberCsvRepository
     id:
         order_id:
             type: smallint

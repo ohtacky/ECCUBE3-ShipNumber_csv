@@ -9,14 +9,14 @@
 * file that was distributed with this source code.
 */
 
-namespace Plugin\ShipNumber;
+namespace Plugin\ShipNumberCsv;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Eccube\Entity\MailHistory;
 
 
-class ShipNumberEvent
+class ShipNumberCsvEvent
 {
     private $app;
 
@@ -189,7 +189,7 @@ class ShipNumberEvent
           $OrderContent = $app['eccube.plugin.repository.ship_number']->find($order_id);
 
           if (is_null($OrderContent)) {
-              $OrderContent = new \Plugin\ShipNumber\Entity\ShipNumber();
+              $OrderContent = new \Plugin\ShipNumberCsv\Entity\ShipNumberCsv();
           }
 
           $Order = $app['eccube.repository.order']->find($order_id);
@@ -230,7 +230,7 @@ class ShipNumberEvent
           $form->handleRequest($request);
 
           $twig = $app->renderView(
-              'ShipNumber/Resource/template/Admin/ship_number.twig',
+              'ShipNumberCsv/Resource/template/Admin/ship_number_csv.twig',
               array('form' => $form->createView())
           );
 
@@ -250,7 +250,7 @@ class ShipNumberEvent
               $first = array("<head>", "</body>");
               $last = array("<html lang=\"ja\"><head>", "</body></html>");
               $html = str_replace($first, $last, $html);
-            
+
               $response->setContent($html);
               $event->setResponse($response);
           }

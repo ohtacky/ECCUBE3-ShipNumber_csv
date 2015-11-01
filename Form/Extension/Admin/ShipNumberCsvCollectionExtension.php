@@ -9,14 +9,14 @@
 * file that was distributed with this source code.
 */
 
-namespace Plugin\ShipNumber\Form\Extension\Admin;
+namespace Plugin\ShipNumberCsv\Form\Extension\Admin;
 
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-class ShipNumberCollectionExtension extends AbstractTypeExtension
+class ShipNumberCsvCollectionExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

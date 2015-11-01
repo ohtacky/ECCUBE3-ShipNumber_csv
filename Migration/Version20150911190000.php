@@ -24,7 +24,9 @@ class Version20150911190000 extends AbstractMigration
 
     public function down(Schema $schema)
     {
-        $schema->dropTable('plg_ship_number');
+        $schema->dropTable('plg_ship_number_csv');
+// 送信履歴で使用するため、削除できない
+//        $this->addSql('DELETE FROM dtb_mail_template WHERE name = "発送メール" ');
     }
 
     public function postUp(Schema $schema)
@@ -66,7 +68,7 @@ class Version20150911190000 extends AbstractMigration
 
     protected function createShipNumberTable(Schema $schema)
     {
-        $table = $schema->createTable("plg_ship_number");
+        $table = $schema->createTable("plg_ship_number_csv");
         $table->addColumn('order_id', 'integer');
         $table->addColumn('ship_number', 'text', array(
           'notnull' => false,

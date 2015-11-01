@@ -9,7 +9,7 @@
 * file that was distributed with this source code.
 */
 
-namespace Plugin\ShipNumber\Controller;
+namespace Plugin\ShipNumberCsv\Controller;
 
 use Eccube\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,11 +20,11 @@ use Eccube\Service\CsvImportService;
 use Eccube\Util\Str;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ShipNumberController
+class ShipNumberCsvController
 {
 
     private $errors = array();
-    private $shipnumberTwig = 'ShipNumber/Resource/template/Admin/csv_shipnumber.twig';
+    private $shipnumberTwig = 'ShipNumberCsv/Resource/template/Admin/csv_shipnumber.twig';
 
     public function __construct()
     {
@@ -92,7 +92,7 @@ class ShipNumberController
                     $OrderContent = $app['eccube.plugin.repository.ship_number']->find($row['注文番号']);
 
                     if (is_null($OrderContent)) {
-                        $OrderContent = new \Plugin\ShipNumber\Entity\ShipNumber();
+                        $OrderContent = new \Plugin\ShipNumberCsv\Entity\ShipNumberCsv();
                     }
 
                     $OrderContent->setOrderId(Str::trimAll($row['注文番号']));

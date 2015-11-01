@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\ShipNumber;
+namespace Plugin\ShipNumberCsv;
 
 use Eccube\Plugin\AbstractPluginManager;
 

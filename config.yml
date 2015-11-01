@@ -1,10 +1,10 @@
-name: 配送伝票番号プラグイン
-code: ShipNumber
+name: 配送伝票番号csv一括登録
+code: ShipNumberCsv
 version: 0.0.1
 service:
-    - ShipNumberServiceProvider
+    - ShipNumberCsvServiceProvider
 orm.path:
     - /Resource/doctrine
 migration.path:
     - /migration
-event: ShipNumberEvent
+event: ShipNumberCsvEvent

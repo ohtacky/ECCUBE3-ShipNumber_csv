@@ -9,10 +9,10 @@
 * file that was distributed with this source code.
 */
 
-namespace Plugin\ShipNumber\Repository;
+namespace Plugin\ShipNumberCsv\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class ShipNumberRepository extends EntityRepository
+class ShipNumberCsvRepository extends EntityRepository
 {
 }

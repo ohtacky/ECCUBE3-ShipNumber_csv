@@ -10,9 +10,9 @@
 */
 
 
-namespace Plugin\ShipNumber\Entity;
+namespace Plugin\ShipNumberCsv\Entity;
 
-class ShipNumber extends \Eccube\Entity\AbstractEntity
+class ShipNumberCsv extends \Eccube\Entity\AbstractEntity
 {
 
     private $ship_number;

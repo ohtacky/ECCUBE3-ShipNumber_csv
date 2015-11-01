@@ -9,33 +9,33 @@
 * file that was distributed with this source code.
 */
 
-namespace Plugin\ShipNumber\ServiceProvider;
+namespace Plugin\ShipNumberCsv\ServiceProvider;
 
 use Eccube\Application;
 use Silex\Application as BaseApplication;
 use Silex\ServiceProviderInterface;
 
-class ShipNumberServiceProvider implements ServiceProviderInterface
+class ShipNumberCsvServiceProvider implements ServiceProviderInterface
 {
     public function register(BaseApplication $app)
     {
 
         // Formの定義
         $app['form.type.extensions'] = $app->share($app->extend('form.type.extensions', function ($extensions) use ($app) {
-            $extensions[] = new \Plugin\ShipNumber\Form\Extension\Admin\ShipNumberCollectionExtension();
+            $extensions[] = new \Plugin\ShipNumberCsv\Form\Extension\Admin\ShipNumberCsvCollectionExtension();
 
             return $extensions;
         }));
 
         //Repository
         $app['eccube.plugin.repository.ship_number'] = $app->share(function () use ($app) {
-            return $app['orm.em']->getRepository('\Plugin\ShipNumber\Entity\ShipNumber');
+            return $app['orm.em']->getRepository('\Plugin\ShipNumberCsv\Entity\ShipNumberCsv');
         });
 
 
 
         //Controllerの追加
-        $app->match('/' . $app["config"]["admin_route"] . '/order/shipping_number', '\\Plugin\\ShipNumber\\Controller\\ShipNumberController::index')
+        $app->match('/' . $app["config"]["admin_route"] . '/order/shipping_number', '\\Plugin\\ShipNumberCsv\\Controller\\ShipNumberCsvController::index')
             ->bind('admin_shipping_number');
 
 
@@ -57,7 +57,7 @@ class ShipNumberServiceProvider implements ServiceProviderInterface
         }));
 
         //テンプレートダウンロード用
-        $app->match('/' . $app["config"]["admin_route"] . '/order/shipping_number_csv_template', '\\Plugin\\ShipNumber\\Controller\\ShipNumberController::csvTemplate')->bind('admin_shipnumber_csv_template');
+        $app->match('/' . $app["config"]["admin_route"] . '/order/shipping_number_csv_template', '\\Plugin\\ShipNumberCsv\\Controller\\ShipNumberCsvController::csvTemplate')->bind('admin_shipnumber_csv_template');
 
 
     }

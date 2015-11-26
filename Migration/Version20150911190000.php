@@ -36,11 +36,11 @@ class Version20150911190000 extends AbstractMigration
       $app = new \Eccube\Application();
       $app->boot();
 
-      $statement = $this->connection->prepare('SELECT template_id FROM dtb_mail_template');
+      $statement = $this->connection->prepare('SELECT template_id FROM dtb_mail_template ORDER BY template_id desc');
       $statement->execute();
-      $templateId = $statement->fetchAll();
+      $templateId = $statement->fetchColumn();
 
-      $templateIdNumber = count($templateId) + 1;
+      $templateIdNumber = $templateId + 1;
 
       $creatorId = '1';
       $name = '発送メール';

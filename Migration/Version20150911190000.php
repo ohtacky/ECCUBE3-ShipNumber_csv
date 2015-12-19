@@ -41,7 +41,7 @@ class Version20150911190000 extends AbstractMigration
       $templateId = $statement->fetchColumn();
 
       $this->connection->insert('dtb_mail_template', array(
-        'template_id' => count($templateId) + 1,
+        'template_id' => $templateId + 1,
         'creator_id' => '1',
         'name' => '発送メール',
         'file_name' => 'Mail/order.twig',

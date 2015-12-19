@@ -40,20 +40,20 @@ class Version20150911190000 extends AbstractMigration
       $statement->execute();
       $templateId = $statement->fetchColumn();
 
-      $templateIdNumber = $templateId + 1;
-
-      $creatorId = '1';
-      $name = '発送メール';
-      $fileName = 'Mail/order.twig';
-      $subject = '商品を発送致しました。';
-      $header = 'この度はご注文いただき誠にありがとうございます。
+      $this->connection->insert('dtb_mail_template', array(
+        'template_id' => count($templateId) + 1,
+        'creator_id' => '1',
+        'name' => '発送メール',
+        'file_name' => 'Mail/order.twig',
+        'subject' => '商品を発送致しました。',
+        'header' => 'この度はご注文いただき誠にありがとうございます。
 
 ご注文いただいた下記商品を本日発送いたしました。
 伝票番号：
 発送業者：ヤマト運輸
 詳しい発送状況は、荷物お問い合わせページ（ヤマト運輸） からご確認ください。
-http://toi.kuronekoyamato.co.jp/cgi-bin/tneko';
-      $footer = '============================================
+http://toi.kuronekoyamato.co.jp/cgi-bin/tneko',
+        'footer' => '============================================
 
 
 このメッセージはお客様へのお知らせ専用ですので、
@@ -62,14 +62,11 @@ http://toi.kuronekoyamato.co.jp/cgi-bin/tneko';
 
 ご質問やご不明な点がございましたら、こちらからお願いいたします。
 
-';
-      $delFlg = '0';
-      $datetime = date('Y-m-d H:i:s');
-      $insert = "INSERT INTO dtb_mail_template(
-                          template_id, creator_id, name, file_name, subject, header, footer, del_flg, create_date, update_date)
-                  VALUES ('$templateIdNumber', '$creatorId', '$name', '$fileName', '$subject', '$header', '$footer', '$delFlg', '$datetime', '$datetime'
-                          );";
-      $this->connection->executeUpdate($insert);
+',
+        'del_flg' => '0',
+        'create_date' => date('Y-m-d H:i:s'),
+        'update_date' => date('Y-m-d H:i:s')
+      ));
 
     }
 

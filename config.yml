@@ -1,6 +1,6 @@
 name: 配送伝票番号csv一括登録
 code: ShipNumberCsv
-version: 1.0.0
+version: 1.0.1
 service:
     - ShipNumberCsvServiceProvider
 orm.path:

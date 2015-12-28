@@ -235,7 +235,7 @@ class ShipNumberCsvEvent
           );
 
           $oldElement = $crawler
-          ->filter('.accordion')
+          ->filter('.box')
           ->last();
 
           if ($oldElement->count() > 0) {

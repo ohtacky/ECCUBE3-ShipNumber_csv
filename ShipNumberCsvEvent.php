@@ -3,7 +3,7 @@
 * This file is part of EC-CUBE
 *
 * Copyright(c) 2015 Takashi Otaki All Rights Reserved.
-* 
+*
 *
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
@@ -25,120 +25,6 @@ class ShipNumberCsvEvent
         $this->app = $app;
     }
 
-    public function mailAllShipNumber()
-    {
-      $app = $this->app;
-      $builder = $app['form.factory']->createBuilder('mail');
-      $form = $builder->getForm();
-      $ids = '';
-
-      if ('POST' === $app['request']->getMethod()) {
-          $form->handleRequest($app['request']);
-          $mode = $app['request']->get('mode');
-          $ids = $app['request']->get('ids');
-
-
-          switch ($mode) {
-            case 'complete':
-
-                $data = $form->getData();
-
-                $ids = explode(',', $ids);
-
-                $ShippingNumberFirst = $app['eccube.plugin.repository.ship_number']->find($ids[0]);
-
-                if (isset($ShippingNumberFirst)) {
-                    $GetShipNumberFirst = $ShippingNumberFirst -> getShipNumber();
-                }
-
-                foreach ($ids as $value) {
-
-                    $ShippingNumberContent = $app['eccube.plugin.repository.ship_number']->find($value);
-
-                    if (isset($ShippingNumberContent)) {
-                        $Shippingnumber = $ShippingNumberContent -> getShipNumber();
-                        $data['header'] = str_replace("伝票番号：".$GetShipNumberFirst, "伝票番号：".$Shippingnumber, $data['header']);
-                          if ($GetShipNumberFirst === "null") {
-                            $data['header'] = str_replace("伝票番号：", "伝票番号：".$Shippingnumber, $data['header']);
-                          }
-                        $GetShipNumberFirst = $Shippingnumber;
-                    } else {
-                        $data['header'] = str_replace("伝票番号：".$GetShipNumberFirst, "伝票番号：", $data['header']);
-                        $GetShipNumberFirst = "null";
-                    }
-
-                    $Order = $app['eccube.repository.order']->find($value);
-
-                    $body = $this->createBody($app, $data['header'], $data['footer'], $Order);
-
-                    // メール送信
-                    $app['eccube.service.mail']->sendAdminOrderMail($Order, $data);
-
-                    // 送信履歴を保存.
-                    $MailTemplate = $form->get('template')->getData();
-                    $MailHistory = new MailHistory();
-                    $MailHistory
-                        ->setSubject($data['subject'])
-                        ->setMailBody($body)
-                        ->setMailTemplate($MailTemplate)
-                        ->setSendDate(new \DateTime())
-                        ->setOrder($Order);
-                    $app['orm.em']->persist($MailHistory);
-                }
-
-                $app['orm.em']->flush($MailHistory);
-
-                exit ($app->redirect($app->url('admin_order_mail_complete')));
-
-                break;
-
-            default:
-                break;
-          }
-      }
-    }
-
-    private function createBody($app, $header, $footer, $Order)
-    {
-        return $app->renderView('Mail/order.twig', array(
-            'header' => $header,
-            'footer' => $footer,
-            'Order' => $Order,
-        ));
-    }
-
-
-    public function mailAllShipNumberComfirm(FilterResponseEvent $event)
-    {
-
-      $app = $this->app;
-      $request = $event->getRequest();
-
-      if ('POST' === $app['request']->getMethod()) {
-
-          $mode = $request->get('mode');
-          $ids = $request->get('ids');
-
-          switch ($mode) {
-            case 'confirm':
-
-              $tmp = explode(',', $ids);
-
-              $ShippingNumberContent = $app['eccube.plugin.repository.ship_number']->find($tmp[0]);
-
-              if (isset($ShippingNumberContent)) {
-                  $Shippingnumber = $ShippingNumberContent -> getShipNumber();
-                  $response = $event->getResponse();
-                  $addShippingNumber = str_replace("伝票番号：", "伝票番号：".$Shippingnumber, $response);
-                  $response->setContent($addShippingNumber);
-                  $event->setResponse($response);
-              }
-              break;
-              default:
-              break;
-          }
-      }
-    }
 
 
     public function mailShipNumber(FilterResponseEvent $event)
@@ -259,5 +145,42 @@ class ShipNumberCsvEvent
           }
 
     }
+
+
+
+    //発送メールプルダウン追加
+    public function shippingMailAll(FilterResponseEvent $event)
+    {
+          $app = $this->app;
+          $request = $event->getRequest();
+          $response = $event->getResponse();
+
+          $html = $response->getContent();
+          $crawler = new Crawler($html);
+
+          $twig = $app->renderView('ShipNumberCsv/Resource/template/Admin/shipping_mail_all_list.twig');
+
+          $oldElement = $crawler
+          ->filter('.dropdown-menu > li')
+          ->eq(13);
+
+          $html = $crawler->html();
+
+          $oldHtml = '';
+          $newHtml = '';
+          if (count($oldElement) > 0) {
+            $oldHtml = $oldElement->html();
+            $newHtml = $oldHtml.$twig;
+          }
+
+          $html = str_replace($oldHtml, $newHtml, $html);
+
+          $html = html_entity_decode($html, ENT_NOQUOTES, 'UTF-8');
+
+          $response->setContent($html);
+          $event->setResponse($response);
+
+    }
+
 
 }

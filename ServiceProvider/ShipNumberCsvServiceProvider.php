@@ -3,7 +3,7 @@
 * This file is part of EC-CUBE
 *
 * Copyright(c) 2015 Takashi Otaki All Rights Reserved.
-* 
+*
 *
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
@@ -33,7 +33,6 @@ class ShipNumberCsvServiceProvider implements ServiceProviderInterface
         });
 
 
-
         //Controllerの追加
         $app->match('/' . $app["config"]["admin_route"] . '/order/shipping_number', '\\Plugin\\ShipNumberCsv\\Controller\\ShipNumberCsvController::index')
             ->bind('admin_shipping_number');
@@ -59,6 +58,9 @@ class ShipNumberCsvServiceProvider implements ServiceProviderInterface
         //テンプレートダウンロード用
         $app->match('/' . $app["config"]["admin_route"] . '/order/shipping_number_csv_template', '\\Plugin\\ShipNumberCsv\\Controller\\ShipNumberCsvController::csvTemplate')->bind('admin_shipnumber_csv_template');
 
+
+        //発送メール通知
+        $app->match('/' . $app["config"]["admin_route"] . '/order/mail/shipping_mail_all', '\\Plugin\\ShipNumberCsv\\Controller\\ShippingMailController::mailAll')->bind('admin_shipping_mail_all');
 
     }
 
